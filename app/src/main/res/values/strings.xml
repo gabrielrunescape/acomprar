@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Sem nome</string>
+
+    <string name="menu_about">Sobre</string>
+    <string name="menu_add">Novo item</string>
+    <string name="menu_report">Relatório</string>
 </resources>
