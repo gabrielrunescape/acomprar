@@ -9,26 +9,27 @@ import android.view.LayoutInflater;
 import acomprar.gabrielrunescape.com.br.R;
 import android.support.v7.widget.RecyclerView;
 import acomprar.gabrielrunescape.com.br.object.Item;
+import acomprar.gabrielrunescape.com.br.object.Rendimento;
 
 /**
  * A classe extende um ArrayAdapter no qual é utilizado para inserir informações de um objeto a ele
- * exibindo em uma ListView.
+ * exibindo em uma RecyclerView.
  *
  * @author Gabriel Filipe
  * @version A1
  * @since 2017-07-29
  */
-public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
-    private List<Item> listItens;
+public class RendimentoAdapter extends RecyclerView.Adapter<RendimentoHolder> {
+    private List<Rendimento> listItens;
     private FragmentManager support;
-    private static String TAG = ItemAdapter.class.getSimpleName();
+    private static String TAG = RendimentoAdapter.class.getSimpleName();
 
     /**
      * Metódo construtor da classe.
      *
      * @param lista ArrayList serializado com Item.
      */
-    public ItemAdapter(List<Item> lista, FragmentManager support) {
+    public RendimentoAdapter(List<Rendimento> lista, FragmentManager support) {
         this.listItens = lista;
         this.support = support;
     }
@@ -42,10 +43,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
      * @return Um adaptador de RecyclerView.
      */
     @Override
-    public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RendimentoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_row, parent, false);
 
-        return new ItemHolder(itemView);
+        return new RendimentoHolder(itemView);
     }
 
     /**
@@ -55,29 +56,35 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
      * @param position Posição o qual está preenchendo.
      */
     @Override
-    public void onBindViewHolder(ItemHolder holder, int position) {
+    public void onBindViewHolder(RendimentoHolder holder, int position) {
         try {
-            Item item = listItens.get(position);
-            String status = item.getStatus().getDescrição() + " - " + item.getComprado() + " " + item.getUnidade().getAbreviação();
+            Rendimento item = listItens.get(position);
 
-            holder.item = item;
+            holder.rendimento = item;
             holder.support = support;
-            holder.status.setText(status);
-            holder.nome.setText(item.getQuantidade() + " x " + item.getNome());
 
-            switch (item.getStatus().getID()) {
-                case 1:
-                    holder.status.setTextColor(holder.status.getResources().getColor(R.color.colourDanger));
+            String vencimento = String.format("%1$tA, %1$td", item.getDT_vencimento());
+            String lancamento = String.format("%1$tA, %1$td", item.getDT_lancamento());
+
+            holder.categoria.setText(item.getCategoria().getNome());
+            holder.valor.setText(String.format("R$ %1$.2f", item.getValor()));
+            holder.vencimento.setText(vencimento.substring(0, 1).toUpperCase() + vencimento.substring(1));
+            holder.lancamento.setText(lancamento.substring(0, 1).toUpperCase() + lancamento.substring(1));
+
+
+            switch (item.getCategoria().getTipo()) {
+                case '-':
+                    holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourDanger));
                     break;
-                case 2:
-                    holder.status.setTextColor(holder.status.getResources().getColor(R.color.colourWarning));
+                case '0':
+                    holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourWarning));
                     break;
-                case 3:
-                    holder.status.setTextColor(holder.status.getResources().getColor(R.color.colourSuccess));
+                case '+':
+                    holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourSuccess));
                     break;
-                case 4:
+                case '1':
                 default:
-                    holder.status.setTextColor(holder.status.getResources().getColor(R.color.colourInformation));
+                    holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourInformation));
                     break;
             }
         } catch (Exception ex) {
@@ -98,7 +105,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
      *
      * @param list Lista com os objetos do tipo Item.
      */
-    public void addAll(List<Item> list) {
+    public void addAll(List<Rendimento> list) {
         listItens.addAll(list);
 
         notifyDataSetChanged();
@@ -118,7 +125,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemHolder> {
      *
      * @param item Item a ser removido.
      */
-    public void removeItem(Item item) {
+    public void removeItem(Rendimento item) {
         int position = listItens.indexOf(item);
 
         listItens.remove(position);

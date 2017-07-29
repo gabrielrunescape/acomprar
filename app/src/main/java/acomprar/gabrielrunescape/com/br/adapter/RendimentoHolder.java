@@ -7,32 +7,34 @@ import android.widget.TextView;
 import android.app.FragmentManager;
 import acomprar.gabrielrunescape.com.br.R;
 import android.support.v7.widget.RecyclerView;
-import acomprar.gabrielrunescape.com.br.object.Item;
+import acomprar.gabrielrunescape.com.br.object.Rendimento;
 import acomprar.gabrielrunescape.com.br.activity.HomeActivity;
 
 /**
  * Carrega os itens básicos para criar os ItemView da RecycleView.
  *
  * @author Gabriel Filipe
- * @version A!
+ * @version A1
  * @since 2017-07-29
  */
-public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public Item item;
-    public TextView nome, status;
+public class RendimentoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public Rendimento rendimento;
     public FragmentManager support;
-    private static String TAG = ItemHolder.class.getSimpleName();
+    public TextView categoria, lancamento, vencimento, valor;
+    private static String TAG = RendimentoHolder.class.getSimpleName();
 
     /**
      * Método construtor da classe.
      *
      * @param v Activity da RecycleView.
      */
-    public ItemHolder(View v) {
+    public RendimentoHolder(View v) {
         super(v);
 
-        nome = (TextView) v.findViewById(R.id.txt_nome);
-        status = (TextView) v.findViewById(R.id.txt_status);
+        valor = (TextView) v.findViewById(R.id.txt_valor);
+        categoria = (TextView) v.findViewById(R.id.txt_categoria);
+        vencimento = (TextView) v.findViewById(R.id.txt_vencimento);
+        lancamento = (TextView) v.findViewById(R.id.txt_lancamento);
 
         v.setOnClickListener(this);
     }
@@ -51,7 +53,7 @@ public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickL
                 Log.i(TAG, String.format("O item nº %1$d foi clicado!", position + 1));
 
                 Intent intent = new Intent(v.getContext(), HomeActivity.class);
-                intent.putExtra("Item", item);
+                intent.putExtra("Rendimento", rendimento);
 
                 v.getContext().startActivity(intent);
             }
