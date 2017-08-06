@@ -1,5 +1,10 @@
 package acomprar.gabrielrunescape.com.br.object;
 
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -62,6 +67,29 @@ public class Rendimento implements Serializable {
         this.categoria = categoria;
         this.dt_lancamento = lancamento;
         this.dt_vencimento = vencimento;
+    }
+
+    /**
+     * @return Obtem a data no padrão ISO (Banco de dados).
+     */
+    public String getDateISO(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+    /**
+     * @return Converte a data no padrão ISO (Banco de dados).
+     */
+    public Date getDateISO(String date) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            return format.parse(date);
+        } catch (ParseException ex) {
+            Log.i("Rendimento.java: ", ex.getMessage());
+
+            return null;
+        }
     }
 
     /**

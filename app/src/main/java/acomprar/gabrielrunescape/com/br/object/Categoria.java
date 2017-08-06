@@ -11,8 +11,8 @@ import java.io.Serializable;
  */
 public class Categoria  implements Serializable {
     private int ID;
-    private char tipo;
     private String nome;
+    private String tipo;
 
     /**
      * Construtor simples sem paramêtros
@@ -33,7 +33,7 @@ public class Categoria  implements Serializable {
      * @param nome Nome da Categoria
      * @param tipo Tipo da Categoria
      */
-    public Categoria(String nome, char tipo) { this.nome = nome; this.tipo = tipo; }
+    public Categoria(String nome, String tipo) { this.nome = nome; this.tipo = tipo; }
 
     /**
      * Construtor da classe com paramêtros
@@ -42,7 +42,7 @@ public class Categoria  implements Serializable {
      * @param nome Nome da Categoria
      * @param tipo Tipo da Categoria
      */
-    public Categoria(int id, String nome, char tipo) { this.ID = id; this.nome = nome; this.tipo = tipo; }
+    public Categoria(int id, String nome, String tipo) { this.ID = id; this.nome = nome; this.tipo = tipo; }
 
     /**
      * @return Código identificador da Categoria.
@@ -52,7 +52,7 @@ public class Categoria  implements Serializable {
     /**
      * @return Tipo da Categoria.
      */
-    public char getTipo() { return tipo; }
+    public String getTipo() { return tipo; }
 
     /**
      * @return Nome da Categoria.
@@ -67,7 +67,7 @@ public class Categoria  implements Serializable {
     /**
      * @param tipo Define o tipo da Categoria.
      */
-    public void setTipo(char tipo) { this.tipo = tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
     /**
      * @param nome Define o nome da Categoria.

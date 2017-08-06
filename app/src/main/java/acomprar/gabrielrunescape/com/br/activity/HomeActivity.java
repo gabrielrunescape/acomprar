@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+
+import acomprar.gabrielrunescape.com.br.dao.RendimentoDAO;
 import acomprar.gabrielrunescape.com.br.object.Categoria;
 import acomprar.gabrielrunescape.com.br.object.Rendimento;
 import acomprar.gabrielrunescape.com.br.adapter.RendimentoAdapter;
@@ -28,6 +30,7 @@ import acomprar.gabrielrunescape.com.br.model.SimpleDividerItemDecoration;
  * @since 2017-07-08
  */
 public class HomeActivity extends AppCompatActivity {
+    private RendimentoDAO dao;
     private DrawerLayout drawer;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeContainer;
@@ -107,20 +110,22 @@ public class HomeActivity extends AppCompatActivity {
 
     public void updateData() {
         try {
-            List<Rendimento> list = new ArrayList<>();
+            dao = new RendimentoDAO(this);
+            dao.open(false);
 
-            for (int i = 0; i < 10; i++) {
-                if (i % 2 == 0) {
-                    list.add(new Rendimento(i, (4.43 * i), new Date(2017, (2 + i), (8 + i)), new Date(2017, (1 + i), (10 + i)),new Categoria("Xibata", '+')));
-                } else {
-                    list.add(new Rendimento(i, (3.21 * i), new Date(2017, (3 + i), (12 + i)), new Date(2017, (2 + i), (15 + i)),new Categoria("Pika", '-')));
-                }
-            }
-
-            final RendimentoAdapter adapter = new RendimentoAdapter(list, getFragmentManager());
+            final RendimentoAdapter adapter = new RendimentoAdapter(dao.getAll(), getFragmentManager());
             adapter.notifyDataSetChanged();
 
             recyclerView.setAdapter(adapter);
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeContainer.setRefreshing(false);
+
+                    adapter.clear();
+                    adapter.addAll(dao.getAll());
+                }
+            });
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }

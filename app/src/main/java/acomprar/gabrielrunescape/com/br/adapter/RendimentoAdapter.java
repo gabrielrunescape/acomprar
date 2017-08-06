@@ -67,22 +67,22 @@ public class RendimentoAdapter extends RecyclerView.Adapter<RendimentoHolder> {
             String lancamento = String.format("%1$tA, %1$td", item.getDT_lancamento());
 
             holder.categoria.setText(item.getCategoria().getNome());
-            holder.valor.setText(String.format("R$ %1$.2f", item.getValor()));
+            holder.valor.setText(String.format("R$ %1$,.2f", item.getValor()));
             holder.vencimento.setText(vencimento.substring(0, 1).toUpperCase() + vencimento.substring(1));
             holder.lancamento.setText(lancamento.substring(0, 1).toUpperCase() + lancamento.substring(1));
 
 
             switch (item.getCategoria().getTipo()) {
-                case '-':
+                case "-":
                     holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourDanger));
                     break;
-                case '0':
+                case "0":
                     holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourWarning));
                     break;
-                case '+':
+                case "+":
                     holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourSuccess));
                     break;
-                case '1':
+                case "1":
                 default:
                     holder.valor.setTextColor(holder.valor.getResources().getColor(R.color.colourInformation));
                     break;
