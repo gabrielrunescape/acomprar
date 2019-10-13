@@ -5,8 +5,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import acomprar.gabrielrunescape.com.br.R;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Desenha divisórias em cada ItemView do RecyclerView como uma decoração.

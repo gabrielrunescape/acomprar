@@ -8,19 +8,17 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import android.widget.Toast;
 import android.view.MenuItem;
-import acomprar.gabrielrunescape.com.br.R;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 
-import acomprar.gabrielrunescape.com.br.dao.RendimentoDAO;
-import acomprar.gabrielrunescape.com.br.object.Categoria;
-import acomprar.gabrielrunescape.com.br.object.Rendimento;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.*;
+import androidx.recyclerview.widget.*;
+import acomprar.gabrielrunescape.com.br.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import acomprar.gabrielrunescape.com.br.adapter.RendimentoAdapter;
 import acomprar.gabrielrunescape.com.br.model.SimpleDividerItemDecoration;
+import acomprar.gabrielrunescape.com.br.object.Categoria;
+import acomprar.gabrielrunescape.com.br.object.Rendimento;
 
 /**
  * Cria e exibe todos os elementos (views) necessários na tela inicial (HomeActivity).
@@ -30,7 +28,7 @@ import acomprar.gabrielrunescape.com.br.model.SimpleDividerItemDecoration;
  * @since 2017-07-08
  */
 public class HomeActivity extends AppCompatActivity {
-    private RendimentoDAO dao;
+    //private RendimentoDAO dao;
     private DrawerLayout drawer;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeContainer;
@@ -48,10 +46,13 @@ public class HomeActivity extends AppCompatActivity {
 
         Log.i(TAG, String.format("Criando views e demais elementos da activity %s.", TAG));
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.content_home);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
@@ -110,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void updateData() {
         try {
-            dao = new RendimentoDAO(this);
+            /**dao = new RendimentoDAO(this);
             dao.open(false);
 
             final RendimentoAdapter adapter = new RendimentoAdapter(dao.getAll(), getFragmentManager());
@@ -124,6 +125,30 @@ public class HomeActivity extends AppCompatActivity {
 
                     adapter.clear();
                     adapter.addAll(dao.getAll());
+                }
+            }); */
+
+            final List<Rendimento> lista = new ArrayList<>();
+
+            lista.add(new Rendimento(1002, "Compra", 24.4, new Date(2019, 10, 10), new Date(2019, 10, 10), new Categoria(1, "Gasto", "-")));
+            lista.add(new Rendimento(1003, "Venda", 44.34, new Date(2019, 8, 17), new Date(2019, 8, 17), new Categoria(2, "Receita", "+")));
+            lista.add(new Rendimento(1005, "Compra K-bulosa", 214, new Date(2019, 8, 12), new Date(2019, 8, 12), new Categoria(1, "Gasto", "-")));
+            lista.add(new Rendimento(1006, "Venda da NASA", 262, new Date(2019, 8, 18), new Date(2019, 8, 18), new Categoria(2, "Receita", "+")));
+            lista.add(new Rendimento(1012, "Mercadin' do baiano", 12.53, new Date(2019, 4, 2), new Date(2019, 4, 2), new Categoria(4, "Besteira", "-")));
+            lista.add(new Rendimento(1013, "Claro que não é venda", 102.92, new Date(2019, 4, 22), new Date(2019, 8, 17), new Categoria(1, "Gasto", "-")));
+            lista.add(new Rendimento(1025, "Agora pode talvez ser uma venda", 87.75, new Date(2019, 8, 18), new Date(2019, 8, 18), new Categoria(2, "Venda", "+")));
+
+            final RendimentoAdapter adapter = new RendimentoAdapter(lista, getFragmentManager());
+            adapter.notifyDataSetChanged();
+
+            recyclerView.setAdapter(adapter);
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeContainer.setRefreshing(false);
+
+                    adapter.clear();
+                    adapter.addAll(lista);
                 }
             });
         } catch (Exception ex) {

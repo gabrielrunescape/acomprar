@@ -7,8 +7,7 @@ import android.view.ViewGroup;
 import android.app.FragmentManager;
 import android.view.LayoutInflater;
 import acomprar.gabrielrunescape.com.br.R;
-import android.support.v7.widget.RecyclerView;
-import acomprar.gabrielrunescape.com.br.object.Item;
+import androidx.recyclerview.widget.RecyclerView;
 import acomprar.gabrielrunescape.com.br.object.Rendimento;
 
 /**
@@ -63,8 +62,8 @@ public class RendimentoAdapter extends RecyclerView.Adapter<RendimentoHolder> {
             holder.rendimento = item;
             holder.support = support;
 
-            String vencimento = String.format("%1$tA, %1$td", item.getDT_vencimento());
-            String lancamento = String.format("%1$tA, %1$td", item.getDT_lancamento());
+            String vencimento = String.format("%1$tA, %1$td", item.getDT_Compra());
+            String lancamento = String.format("%1$tA, %1$td", item.getDT_Criacao());
 
             holder.categoria.setText(item.getCategoria().getNome());
             holder.valor.setText(String.format("R$ %1$,.2f", item.getValor()));

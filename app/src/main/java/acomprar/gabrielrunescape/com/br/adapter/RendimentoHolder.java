@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.app.FragmentManager;
 import acomprar.gabrielrunescape.com.br.R;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import acomprar.gabrielrunescape.com.br.object.Rendimento;
 import acomprar.gabrielrunescape.com.br.activity.HomeActivity;
 

@@ -3,9 +3,9 @@ package acomprar.gabrielrunescape.com.br.model;
 import android.view.View;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.support.v4.view.ViewCompat;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
+import androidx.core.view.ViewCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * Realiza a verificação de rolagem do RecyclerView e implementa no FloatingActionButton como uma
