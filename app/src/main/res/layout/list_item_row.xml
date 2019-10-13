@@ -37,35 +37,35 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
-                    android:textSize="14sp"
-                    android:textStyle="bold"
                     android:id="@+id/txt_categoria"
-                    android:text="@string/txt_categoria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black" />
+                    android:text="@string/txt_categoria"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:textSize="12sp"
                     android:id="@+id/txt_vencimento"
-                    android:text="@string/txt_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"/>
+                    android:text="@string/txt_data"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
-                android:textSize="14sp"
                 android:id="@+id/txt_valor"
-                android:textAlignment="textEnd"
-                android:text="@string/txt_valor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@string/txt_valor"
+                android:textAlignment="textEnd"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

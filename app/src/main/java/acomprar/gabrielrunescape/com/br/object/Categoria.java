@@ -1,6 +1,7 @@
 package acomprar.gabrielrunescape.com.br.object;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Serializa o objeto do tipo Categoria com suas propriedades.
@@ -9,15 +10,39 @@ import java.io.Serializable;
  * @version A1
  * @since 2017-07-29
  */
-public class Categoria  implements Serializable {
+public class Categoria implements Parcelable {
     private int ID;
     private String nome;
     private String tipo;
+
+    // Recupera os dados novamente
+    public static final Parcelable.Creator<Categoria> CREATOR = new Parcelable.Creator<Categoria>() {
+        @Override
+        public Categoria createFromParcel(Parcel source) {
+            return new Categoria(source);
+        }
+
+        @Override
+        public Categoria[] newArray(int size) {
+            return new Categoria[size];
+        }
+    };
 
     /**
      * Construtor simples sem paramêtros
      */
     public Categoria() { }
+
+    /**
+     * Construtor com paramêtros para desserializaão.
+     *
+     * @param parcel Valores a desserializar.
+     */
+    public Categoria(Parcel parcel) {
+        this.ID = parcel.readInt();
+        this.nome = parcel.readString();
+        this.tipo = parcel.readString();
+    }
 
     /**
      * Construtor da classe com paramêtros
@@ -84,5 +109,17 @@ public class Categoria  implements Serializable {
         String _return = "Categoria {\n\tID: %d, \n\tNome: %s,\n\tTipo: %s\n}";
 
         return String.format(_return, ID, nome, tipo);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(ID);
+        dest.writeString(nome);
+        dest.writeString(tipo);
     }
 }

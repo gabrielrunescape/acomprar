@@ -1,27 +1,40 @@
 package acomprar.gabrielrunescape.com.br.object;
 
+import java.util.Date;
 import android.util.Log;
-
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.io.Serializable;
 
 /**
  * Serializa o objeto do tipo Rendimento com suas propriedades.
  *
  * @author Gabriel Filipe
- * @version A1
+ * @version A0
  * @since 2017-07-29
  */
 
-public class Rendimento implements Serializable {
+public class Rendimento implements Parcelable {
     private int ID;
     private double valor;
-    private Date dt_vencimento;
-    private Date dt_lancamento;
+    private Date dt_compra;
+    private Date dt_criacao;
+    private String descricao;
     private Categoria categoria;
+
+    // Recupera os dados novamente
+    public static final Parcelable.Creator<Rendimento> CREATOR = new Parcelable.Creator<Rendimento>() {
+        @Override
+        public Rendimento createFromParcel(Parcel source) {
+            return new Rendimento(source);
+        }
+
+        @Override
+        public Rendimento[] newArray(int size) {
+            return new Rendimento[size];
+        }
+    };
 
     /**
      * Construtor simples sem paramêtros.
@@ -43,12 +56,14 @@ public class Rendimento implements Serializable {
      * Construtor com paramêtros
      *
      * @param id Código identificador do Rendimento.
-     * @param valor Valor do Eendimento.
+     * @param descricao Descrição do Rendimento
+     * @param valor Valor do Rendimento.
      * @param categoria Catégoria do Rendimento.
      */
-    public Rendimento(int id, double valor, Categoria categoria) {
+    public Rendimento(int id, String descricao, double valor, Categoria categoria) {
         this.ID = id;
         this.valor = valor;
+        this.descricao = descricao;
         this.categoria = categoria;
     }
 
@@ -57,16 +72,32 @@ public class Rendimento implements Serializable {
      *
      * @param id Código identificador do Rendimento.
      * @param valor Valor do Rendimento.
-     * @param vencimento Data de vencimento do Rendimento.
-     * @param lancamento Data de lançamento do Rendimento.
+     * @param descricao Descrição do Rendimento.
+     * @param compra Data de compra do Rendimento.
+     * @param criacao Data de criacao do Rendimento.
      * @param categoria Catégoria do Rendimento.
      */
-    public Rendimento(int id, double valor, Date vencimento, Date lancamento, Categoria categoria) {
+    public Rendimento(int id, String descricao, double valor, Date compra, Date criacao, Categoria categoria) {
         this.ID =  id;
         this.valor = valor;
+        this.dt_compra = compra;
+        this.dt_criacao = criacao;
         this.categoria = categoria;
-        this.dt_lancamento = lancamento;
-        this.dt_vencimento = vencimento;
+        this.descricao = descricao;
+    }
+
+    /**
+     * Construtor com paramêtros para desserealizaão
+     *
+     * @param parcel Parcelable valores.
+     */
+    public Rendimento(Parcel parcel) {
+        this.ID = parcel.readInt();
+        this.descricao = parcel.readString();
+        this.valor = parcel.readDouble();
+        this.categoria = (Categoria) parcel.readValue(Categoria.class.getClassLoader());
+        this.dt_criacao = (Date) parcel.readValue(Date.class.getClassLoader());
+        this.dt_compra = (Date) parcel.readValue(Date.class.getClassLoader());
     }
 
     /**
@@ -103,14 +134,14 @@ public class Rendimento implements Serializable {
     public double getValor() { return valor; }
 
     /**
-     * @return Data de vencimento do Rendimento.
+     * @return Data de compra do Rendimento.
      */
-    public Date getDT_vencimento() { return dt_vencimento; }
+    public Date getDT_Compra() { return dt_compra; }
 
     /**
-     * @return Data de lançamento do Rendimento.
+     * @return Data de criacao do Rendimento.
      */
-    public Date getDT_lancamento() { return dt_lancamento; }
+    public Date getDT_Criacao() { return dt_criacao; }
 
     /**
      * @return Catégoria do Rendimento.
@@ -128,14 +159,14 @@ public class Rendimento implements Serializable {
     public void setValor(double valor) { this.valor = valor; }
 
     /**
-     * @param dt_vencimento Define a data de vencimento do Rendimento.
+     * @param compra Define a data de compra do Rendimento.
      */
-    public void setDT_vencimento(Date dt_vencimento) { this.dt_vencimento = dt_vencimento; }
+    public void setDT_vencimento(Date compra) { this.dt_compra = compra; }
 
     /**
-     * @param dt_lancamento Define a data de lançamento do Rendimento.
+     * @param criacao Define a data de criação do Rendimento.
      */
-    public void setDT_lancamento(Date dt_lancamento) { this.dt_lancamento = dt_lancamento; }
+    public void setDT_lancamento(Date criacao) { this.dt_criacao = criacao; }
 
     /**
      * @param categoria Define a catégoria do Rendimento.
@@ -149,8 +180,23 @@ public class Rendimento implements Serializable {
      * @return String do objeto no formato JSON.
      */
     public String toString() {
-        String _return = "Rendimento {\n\tID: %d, \n\tValor: %1$s,\n\tdt_lancamento: %1$tY-%1$tm-%1$td\n\tdt_vencimento: %1$tY-%1$tm-%1$td\n\t%s\n}";
+        String _return = "Rendimento {\n\tID: %d, \n\tDescricao: %s, \n\tValor: %1$s,\n\tDt_compra: %1$tY-%1$tm-%1$td\n\tDt_criacao: %1$tY-%1$tm-%1$td\n\t%s\n}";
 
-        return String.format(_return, ID, valor, dt_lancamento, dt_vencimento, categoria.toString());
+        return String.format(_return, ID, descricao, valor, dt_compra, dt_criacao, categoria.toString());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(ID);
+        dest.writeString(descricao);
+        dest.writeDouble(valor);
+        dest.writeValue(categoria);
+        dest.writeValue(dt_criacao);
+        dest.writeValue(dt_compra);
     }
 }
