@@ -32,9 +32,24 @@ INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Celular', '-');
 INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Mensalidade TV', '-');
 INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Mensalidade Internet', '-');
 INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Supermercado', '-');
-INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Padara, Restaurante, etc', '-');
+INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Padaria, Restaurante, etc', '-');
 INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Beleza e Estética', '-');
-INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Academia e Clube', '-');
+INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Acadêmia e Clube', '-');
 INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Animais de Estimação', '-');
-INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Parcelas Empréstimos', '-');v
+INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Parcelas Empréstimos', '-');
 INSERT INTO Categoria (ID, Nome, Tipo) VALUES (NULL, 'Diversos', '-');
+
+-- INSERT VALUES FROM JULY CALC --
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Delicatto Sorveteria Ilha', 29.7, 35, '2019-06-01');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Supermercado Guanabara', 11.26, 34, '2019-06-01');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Gasolina moto', 30, 16, '2019-06-02');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Recarga Cartão', 30, 18, '2019-06-02');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Pagamento Mensal', 2900.76, 1, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Pagamento Nubank', 488.29, 39, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Pagamento Santander', 2000, 39, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Aluguel', 175, 7, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Conta de Luz', 45.05, 28, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Aluguel Carro Auto Escola', 161, 12, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Duda reprovação carro', 108.15, 15, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Zakat', 400, 46, '2019-06-03');
+INSERT INTO Rendimento (Descricao, Valor, Categoria, Dt_compra) VALUES ('Zakat al-fitr', 32, 34, '2019-06-03');

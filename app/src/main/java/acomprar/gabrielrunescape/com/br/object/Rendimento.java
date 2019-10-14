@@ -1,6 +1,8 @@
 package acomprar.gabrielrunescape.com.br.object;
 
 import java.util.Date;
+
+import android.database.Cursor;
 import android.util.Log;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -101,6 +103,20 @@ public class Rendimento implements Parcelable {
     }
 
     /**
+     * Construtor com paramêtros para receber do banco de dados
+     *
+     * @param cursor Valores do banco de dados a serem convertidos.
+     */
+    public Rendimento(Cursor cursor) {
+        this.ID = cursor.getInt(0);
+        this.descricao = cursor.getString(1);
+        this.valor = cursor.getDouble(2);
+        this.categoria = new Categoria(cursor.getInt(3), cursor.getString(4), cursor.getString(5));
+        this.dt_criacao = getDateISO(cursor.getString(6));
+        this.dt_compra = getDateISO(cursor.getString(7));
+    }
+
+    /**
      * @return Obtem a data no padrão ISO (Banco de dados).
      */
     public String getDateISO(Date date) {
@@ -122,6 +138,11 @@ public class Rendimento implements Parcelable {
             return null;
         }
     }
+
+    /**
+     * @return Descrião do Rendimento.
+     */
+    public String getDescricao() { return descricao; }
 
     /**
      * @return Código identificador do Rendimento.
@@ -154,6 +175,11 @@ public class Rendimento implements Parcelable {
     public void setID(int ID) { this.ID = ID; }
 
     /**
+     * @param descricao Define uma descrião para o Rendimento.
+     */
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    /**
      * @param valor Define o valor do Rendimento.
      */
     public void setValor(double valor) { this.valor = valor; }
@@ -161,12 +187,12 @@ public class Rendimento implements Parcelable {
     /**
      * @param compra Define a data de compra do Rendimento.
      */
-    public void setDT_vencimento(Date compra) { this.dt_compra = compra; }
+    public void setDt_compra(Date compra) { this.dt_compra = compra; }
 
     /**
      * @param criacao Define a data de criação do Rendimento.
      */
-    public void setDT_lancamento(Date criacao) { this.dt_criacao = criacao; }
+    public void setDt_criacao(Date criacao) { this.dt_criacao = criacao; }
 
     /**
      * @param categoria Define a catégoria do Rendimento.

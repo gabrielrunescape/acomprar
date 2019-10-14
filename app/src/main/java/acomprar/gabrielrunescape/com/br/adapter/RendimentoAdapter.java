@@ -1,5 +1,6 @@
 package acomprar.gabrielrunescape.com.br.adapter;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import android.util.Log;
 import android.view.View;
@@ -62,13 +63,13 @@ public class RendimentoAdapter extends RecyclerView.Adapter<RendimentoHolder> {
             holder.rendimento = item;
             holder.support = support;
 
-            String vencimento = String.format("%1$tA, %1$td", item.getDT_Compra());
-            String lancamento = String.format("%1$tA, %1$td", item.getDT_Criacao());
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd");
+            String vencimento = sdf.format(item.getDT_Compra());
 
             holder.categoria.setText(item.getCategoria().getNome());
             holder.valor.setText(String.format("R$ %1$,.2f", item.getValor()));
             holder.vencimento.setText(vencimento.substring(0, 1).toUpperCase() + vencimento.substring(1));
-            holder.lancamento.setText(lancamento.substring(0, 1).toUpperCase() + lancamento.substring(1));
+            holder.descricao.setText(item.getDescricao());
 
 
             switch (item.getCategoria().getTipo()) {

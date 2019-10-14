@@ -20,7 +20,7 @@ import acomprar.gabrielrunescape.com.br.activity.HomeActivity;
 public class RendimentoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public Rendimento rendimento;
     public FragmentManager support;
-    public TextView categoria, lancamento, vencimento, valor;
+    public TextView categoria, descricao, vencimento, valor;
     private static String TAG = RendimentoHolder.class.getSimpleName();
 
     /**
@@ -32,9 +32,9 @@ public class RendimentoHolder extends RecyclerView.ViewHolder implements View.On
         super(v);
 
         valor = (TextView) v.findViewById(R.id.txt_valor);
+        descricao = (TextView) v.findViewById(R.id.txt_descricao);
         categoria = (TextView) v.findViewById(R.id.txt_categoria);
         vencimento = (TextView) v.findViewById(R.id.txt_vencimento);
-        lancamento = (TextView) v.findViewById(R.id.txt_lancamento);
 
         v.setOnClickListener(this);
     }
