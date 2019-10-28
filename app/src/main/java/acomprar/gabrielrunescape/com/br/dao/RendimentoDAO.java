@@ -6,7 +6,6 @@ import android.content.*;
 import android.database.*;
 import android.database.sqlite.SQLiteDatabase;
 import acomprar.gabrielrunescape.com.br.object.*;
-import acomprar.gabrielrunescape.com.br.database.*;
 
 /**
  * Classe responsável por todos os eventos de inserir, alterar, apagar e exibir
@@ -132,11 +131,40 @@ public class RendimentoDAO {
         cursor.moveToFirst();
 
         try {
+            Log.i(TAG, "Obtendo itens ...");
+
             while (!cursor.isAfterLast()) {
                 itens.add(new Rendimento(cursor));
                 cursor.moveToNext();
+            }
 
-                Log.i(TAG, "Obtendo itens ...");
+            cursor.close();
+            return itens;
+        } catch (Exception ex) {
+            Log.e(TAG, ex.getMessage());
+
+            cursor.close();
+            return null;
+        }
+    }
+
+    public List<Rendimento> getRendimentosby(String value) {
+        List<Rendimento> itens = new ArrayList<>();
+
+        String sql = "SELECT " +
+                "R.ID, R.Descricao, R.Valor, C.ID AS `Categoria`, C.Nome, C.Tipo, R.Dt_Criacao, R.Dt_Compra " +
+                "FROM `Rendimento` R INNER JOIN `Categoria` C ON C.ID = R.Categoria " +
+                "WHERE R.Descricao LIKE \'%" + value +"%\'";
+
+        Cursor cursor = database.rawQuery(sql, null);
+        cursor.moveToFirst();
+
+        try {
+            Log.i(TAG, "Obtendo itens ...");
+
+            while (!cursor.isAfterLast()) {
+                itens.add(new Rendimento(cursor));
+                cursor.moveToNext();
             }
 
             cursor.close();

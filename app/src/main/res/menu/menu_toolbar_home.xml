@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
+    <!--<item
         app:showAsAction="always"
         android:id="@+id/item_add"
         android:title="@string/menu_add"
@@ -22,5 +22,13 @@
         android:id="@+id/item_about"
         android:title="@string/menu_report"
         android:icon="@drawable/ic_info_24dp">
-    </item>
+    </item> -->
+
+    <item
+        android:id="@+id/item_search"
+        android:title="@string/menu_search"
+        android:icon="@drawable/ic_search_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
 </menu>

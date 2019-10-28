@@ -1,20 +1,16 @@
 package acomprar.gabrielrunescape.com.br.activity;
 
-import java.util.Date;
-import java.util.List;
-import android.util.Log;
-import android.view.Menu;
+import java.util.*;
+import android.util.*;
+import android.view.*;
 import android.os.Bundle;
-import java.util.ArrayList;
-import android.widget.Toast;
-import android.view.MenuItem;
-import androidx.drawerlayout.widget.*;
 import androidx.recyclerview.widget.*;
 import androidx.appcompat.widget.Toolbar;
 import acomprar.gabrielrunescape.com.br.R;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
-import acomprar.gabrielrunescape.com.br.object.*;
 import acomprar.gabrielrunescape.com.br.dao.RendimentoDAO;
+import acomprar.gabrielrunescape.com.br.object.Rendimento;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import acomprar.gabrielrunescape.com.br.adapter.RendimentoAdapter;
 import acomprar.gabrielrunescape.com.br.model.SimpleDividerItemDecoration;
@@ -64,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
 
         try {
-            updateData();
+            updateData("");
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }
@@ -80,6 +76,31 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar_home, menu);
 
+        final MenuItem searchItem = menu.findItem(R.id.item_search);
+
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true);
+                }
+
+                searchItem.collapseActionView();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!newText.isEmpty()) {
+                    updateData(newText);
+                }
+
+                return true;
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -93,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
+        /**switch (id) {
             case R.id.item_add:
             case R.id.item_report:
             case R.id.item_about:
@@ -101,16 +122,23 @@ public class HomeActivity extends AppCompatActivity {
                 Log.i(TAG, "Função não programada!");
                 Toast.makeText(this, "Função não programada!", Toast.LENGTH_LONG).show();
                 break;
-        }
+        } */
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateData() {
+    public void updateData(final String query) {
         try {
             dao = new RendimentoDAO(this, false);
+            List<Rendimento> array = new ArrayList<>();
 
-            final RendimentoAdapter adapter = new RendimentoAdapter(dao.getAll(), getFragmentManager());
+            if (query.isEmpty() || query.equals(null)) {
+                array = dao.getAll();
+            } else {
+                array = dao.getRendimentosby(query);
+            }
+
+            final RendimentoAdapter adapter = new RendimentoAdapter(array, getFragmentManager());
             adapter.notifyDataSetChanged();
 
             recyclerView.setAdapter(adapter);
@@ -126,5 +154,20 @@ public class HomeActivity extends AppCompatActivity {
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }
+    }
+
+    private List<Rendimento> filter(List<Rendimento> list, String query) {
+        query.toLowerCase();
+
+        final List<Rendimento> filterModel = new ArrayList<>();
+        for (Rendimento rendimento : list) {
+            final String text = rendimento.getDescricao().toLowerCase();
+
+            if (text.contains(query)) {
+                filterModel.add(rendimento);
+            }
+        }
+
+        return filterModel;
     }
 }
