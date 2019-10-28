@@ -2,14 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="88dp"
+    android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:orientation="horizontal">
 
-    <ImageView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewRendimento"
+        android:layout_width="match_parent"
+        android:layout_height="88dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00234567890ABCDEFGHIJ223456789ABECDFGHIJK33234567890ABCDEFGHIJ0123456323"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_categoria"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_vencimento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/txt_data"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txt_valor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_valor"
+                    android:textAlignment="viewEnd"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <!--<ImageView
         android:id="@+id/imageView"
         android:layout_width="72dp"
         android:layout_height="72dp"
@@ -63,5 +127,5 @@
                 android:textAlignment="viewEnd"
                 android:textSize="14sp" />
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout> -->
 </LinearLayout>

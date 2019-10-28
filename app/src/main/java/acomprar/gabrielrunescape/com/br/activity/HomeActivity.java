@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
 
         try {
-            updateData("");
+            updateData();
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }
@@ -95,6 +95,8 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (!newText.isEmpty()) {
                     updateData(newText);
+                } else {
+                    updateData();
                 }
 
                 return true;
@@ -114,31 +116,14 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        /**switch (id) {
-            case R.id.item_add:
-            case R.id.item_report:
-            case R.id.item_about:
-            default:
-                Log.i(TAG, "Função não programada!");
-                Toast.makeText(this, "Função não programada!", Toast.LENGTH_LONG).show();
-                break;
-        } */
-
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateData(final String query) {
+    public void updateData() {
         try {
             dao = new RendimentoDAO(this, false);
-            List<Rendimento> array = new ArrayList<>();
 
-            if (query.isEmpty() || query.equals(null)) {
-                array = dao.getAll();
-            } else {
-                array = dao.getRendimentosby(query);
-            }
-
-            final RendimentoAdapter adapter = new RendimentoAdapter(array, getFragmentManager());
+            final RendimentoAdapter adapter = new RendimentoAdapter(dao.getAll(), getFragmentManager());
             adapter.notifyDataSetChanged();
 
             recyclerView.setAdapter(adapter);
@@ -156,18 +141,25 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private List<Rendimento> filter(List<Rendimento> list, String query) {
-        query.toLowerCase();
+    public void updateData(final String query) {
+        try {
+            dao = new RendimentoDAO(this, false);
 
-        final List<Rendimento> filterModel = new ArrayList<>();
-        for (Rendimento rendimento : list) {
-            final String text = rendimento.getDescricao().toLowerCase();
+            final RendimentoAdapter adapter = new RendimentoAdapter(dao.getRendimentosby(query), getFragmentManager());
+            adapter.notifyDataSetChanged();
 
-            if (text.contains(query)) {
-                filterModel.add(rendimento);
-            }
+            recyclerView.setAdapter(adapter);
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    swipeContainer.setRefreshing(false);
+
+                    adapter.clear();
+                    adapter.addAll(dao.getRendimentosby(query));
+                }
+            });
+        } catch (Exception ex) {
+            Log.e(TAG, ex.getMessage());
         }
-
-        return filterModel;
     }
 }

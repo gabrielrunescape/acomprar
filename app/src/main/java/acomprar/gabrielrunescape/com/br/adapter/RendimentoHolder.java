@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.app.FragmentManager;
 import acomprar.gabrielrunescape.com.br.R;
+
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import acomprar.gabrielrunescape.com.br.object.Rendimento;
 import acomprar.gabrielrunescape.com.br.activity.HomeActivity;
@@ -20,6 +22,7 @@ import acomprar.gabrielrunescape.com.br.activity.HomeActivity;
 public class RendimentoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public Rendimento rendimento;
     public FragmentManager support;
+    public CardView cardViewRendimento;
     public TextView categoria, descricao, vencimento, valor;
     private static String TAG = RendimentoHolder.class.getSimpleName();
 
@@ -31,10 +34,11 @@ public class RendimentoHolder extends RecyclerView.ViewHolder implements View.On
     public RendimentoHolder(View v) {
         super(v);
 
-        valor = (TextView) v.findViewById(R.id.txt_valor);
-        descricao = (TextView) v.findViewById(R.id.txt_descricao);
-        categoria = (TextView) v.findViewById(R.id.txt_categoria);
-        vencimento = (TextView) v.findViewById(R.id.txt_vencimento);
+        valor =  v.findViewById(R.id.txt_valor);
+        descricao = v.findViewById(R.id.txt_descricao);
+        categoria =  v.findViewById(R.id.txt_categoria);
+        vencimento = v.findViewById(R.id.txt_vencimento);
+        cardViewRendimento = v.findViewById(R.id.cardViewRendimento);
 
         v.setOnClickListener(this);
     }
