@@ -9,4 +9,9 @@
     <string name="txt_valor">R$ 0,00</string>
     <string name="txt_categoria">Catégoria</string>
     <string name="txt_data">Dia semana, dia mês</string>
+
+    <!-- content_home.xml -->
+    <string name="img_back">Voltar</string>
+    <string name="img_next">Avançar</string>
+    <string name="txt_date">Mês / Ano</string>
 </resources>

@@ -1,5 +1,6 @@
 package acomprar.gabrielrunescape.com.br.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import android.util.Log;
 import android.content.*;
@@ -122,7 +123,7 @@ public class RendimentoDAO {
     /**
      * Obtem todos os registros de transações dentro do banco de dados.
      *
-     * @return uma lista do tipo Transaction.
+     * @return uma lista do tipo Rendimento.
      */
     public List<Rendimento> getAll() {
         List<Rendimento> itens = new ArrayList<>();
@@ -148,15 +149,48 @@ public class RendimentoDAO {
         }
     }
 
-    public List<Rendimento> getRendimentosby(String value) {
+    /**
+     * Obtem registros de transações dentro do banco de dados com determinado valor.
+     *
+     * @param value Valor a ser filtrado.
+     * @return Uma lista do tipo Rendimento.
+     */
+    public List<Rendimento> getRendimentosbyDescricao(String value) {
         List<Rendimento> itens = new ArrayList<>();
 
-        String sql = "SELECT " +
-                "R.ID, R.Descricao, R.Valor, C.ID AS `Categoria`, C.Nome, C.Tipo, R.Dt_Criacao, R.Dt_Compra " +
-                "FROM `Rendimento` R INNER JOIN `Categoria` C ON C.ID = R.Categoria " +
-                "WHERE R.Descricao LIKE \'%" + value +"%\'";
+        Cursor cursor = database.rawQuery(query + " WHERE R.Descricao LIKE ?", new String[] { "%" + value + "%" });
+        cursor.moveToFirst();
 
-        Cursor cursor = database.rawQuery(sql, null);
+        try {
+            Log.i(TAG, "Obtendo itens ...");
+
+            while (!cursor.isAfterLast()) {
+                itens.add(new Rendimento(cursor));
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+            return itens;
+        } catch (Exception ex) {
+            Log.e(TAG, ex.getMessage());
+
+            cursor.close();
+            return null;
+        }
+    }
+
+    /**
+     * Obtem registros de transações dentro do banco de dados em determinada data.
+     *
+     * @param date Data atual.
+     * @return Uma lista do tipo Rendimento.
+     */
+    public List<Rendimento> getRendimentosbyMonth(String[] date) {
+        List<Rendimento> itens = new ArrayList<>();
+
+        String string = String.format(query + " WHERE R.Dt_Compra BETWEEN \'%s\' AND \'%s\'",  date);
+
+        Cursor cursor = database.rawQuery(string, null);
         cursor.moveToFirst();
 
         try {

@@ -4,6 +4,7 @@ import java.util.*;
 import android.util.*;
 import android.view.*;
 import android.os.Bundle;
+import android.widget.*;
 import androidx.recyclerview.widget.*;
 import androidx.appcompat.widget.Toolbar;
 import acomprar.gabrielrunescape.com.br.R;
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.app.AppCompatActivity;
 import acomprar.gabrielrunescape.com.br.dao.RendimentoDAO;
 import acomprar.gabrielrunescape.com.br.object.Rendimento;
+import acomprar.gabrielrunescape.com.br.utils.DateCurrent;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import acomprar.gabrielrunescape.com.br.adapter.RendimentoAdapter;
 import acomprar.gabrielrunescape.com.br.model.SimpleDividerItemDecoration;
@@ -22,9 +24,13 @@ import acomprar.gabrielrunescape.com.br.model.SimpleDividerItemDecoration;
  * @version A0
  * @since 2017-07-08
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private RendimentoDAO dao;
+    private List<Rendimento> list;
+    private TextView txt_month_year;
+    private RendimentoAdapter adapter;
     private RecyclerView recyclerView;
+    private ImageView img_back, img_next;
     private SwipeRefreshLayout swipeContainer;
     private static String TAG = HomeActivity.class.getSimpleName();
 
@@ -45,6 +51,11 @@ public class HomeActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         swipeContainer = (findViewById(R.id.content_home));
+
+        img_back = findViewById(R.id.img_back);
+        img_next = findViewById(R.id.img_next);
+        txt_month_year = findViewById(R.id.txt_month_year);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -60,7 +71,18 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
 
         try {
-            updateData();
+            DateCurrent dc = new DateCurrent(this, recyclerView);
+
+            img_back.setOnClickListener(dc);
+            img_next.setOnClickListener(dc);
+
+            list = dc.updateData();
+
+            adapter = new RendimentoAdapter(list, getFragmentManager());
+            adapter.notifyDataSetChanged();
+
+            recyclerView.setAdapter(adapter);
+            swipeContainer.setOnRefreshListener(this);
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }
@@ -122,44 +144,38 @@ public class HomeActivity extends AppCompatActivity {
     public void updateData() {
         try {
             dao = new RendimentoDAO(this, false);
+            list = dao.getAll();
 
-            final RendimentoAdapter adapter = new RendimentoAdapter(dao.getAll(), getFragmentManager());
+            adapter = new RendimentoAdapter(list, getFragmentManager());
             adapter.notifyDataSetChanged();
 
             recyclerView.setAdapter(adapter);
-            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    swipeContainer.setRefreshing(false);
-
-                    adapter.clear();
-                    adapter.addAll(dao.getAll());
-                }
-            });
+            swipeContainer.setOnRefreshListener(this);
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }
     }
 
-    public void updateData(final String query) {
+    public void updateData(String query) {
         try {
             dao = new RendimentoDAO(this, false);
+            list = dao.getRendimentosbyDescricao(query);
 
-            final RendimentoAdapter adapter = new RendimentoAdapter(dao.getRendimentosby(query), getFragmentManager());
+            adapter = new RendimentoAdapter(list, getFragmentManager());
             adapter.notifyDataSetChanged();
 
             recyclerView.setAdapter(adapter);
-            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    swipeContainer.setRefreshing(false);
-
-                    adapter.clear();
-                    adapter.addAll(dao.getRendimentosby(query));
-                }
-            });
+            swipeContainer.setOnRefreshListener(this);
         } catch (Exception ex) {
             Log.e(TAG, ex.getMessage());
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeContainer.setRefreshing(false);
+
+        adapter.clear();
+        adapter.addAll(list);
     }
 }
