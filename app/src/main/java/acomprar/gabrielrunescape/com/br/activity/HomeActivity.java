@@ -1,6 +1,8 @@
 package acomprar.gabrielrunescape.com.br.activity;
 
 import java.util.*;
+
+import android.content.Intent;
 import android.util.*;
 import android.view.*;
 import android.os.Bundle;
@@ -14,6 +16,9 @@ import acomprar.gabrielrunescape.com.br.dao.RendimentoDAO;
 import acomprar.gabrielrunescape.com.br.object.Rendimento;
 import acomprar.gabrielrunescape.com.br.utils.DateCurrent;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import acomprar.gabrielrunescape.com.br.adapter.RendimentoAdapter;
 import acomprar.gabrielrunescape.com.br.model.SimpleDividerItemDecoration;
 
@@ -32,6 +37,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
     private RecyclerView recyclerView;
     private ImageView img_back, img_next;
     private SwipeRefreshLayout swipeContainer;
+    private FloatingActionButton floatingActionButton;
     private static String TAG = HomeActivity.class.getSimpleName();
 
     @Override
@@ -51,6 +57,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         recyclerView = findViewById(R.id.recycler_view);
         swipeContainer = (findViewById(R.id.content_home));
+        floatingActionButton = findViewById(R.id.floatingButton);
 
         img_back = findViewById(R.id.img_back);
         img_next = findViewById(R.id.img_next);
@@ -61,6 +68,14 @@ public class HomeActivity extends AppCompatActivity implements SwipeRefreshLayou
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
         swipeContainer.setColorSchemeResources(R.color.colorPrimary, android.R.color.darker_gray, android.R.color.holo_green_dark);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, RendimentoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

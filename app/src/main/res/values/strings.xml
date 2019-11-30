@@ -14,4 +14,11 @@
     <string name="img_back">Voltar</string>
     <string name="img_next">Avançar</string>
     <string name="txt_date">Mês / Ano</string>
+
+    <!-- activity_rendimento.xml -->
+    <string name="btn_save">Salvar</string>
+    <string name="edt_data">Data da compra</string>
+    <string name="edt_valor">Valor do gasto</string>
+    <string name="edt_descricao">Descrição do gasto</string>
+    <string name="spn_categoria">Escolha uma catégoria</string>
 </resources>
